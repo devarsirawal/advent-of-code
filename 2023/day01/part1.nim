@@ -1,23 +1,17 @@
-import std/[algorithm, os, strformat, strutils]
+import std/[os, strformat, strutils]
 
 proc solve*(file: string) = 
-    var
-        sum: int = 0
+    var sum: int = 0
 
     for line in lines(file):
-        var 
-            leftDigit: char
-            rightDigit: char
+        var digits: seq[int]
         for c in line:
-            if c.isDigit():
-                leftDigit = c
-                break
-        for c in reversed(line):
-            if c.isDigit():
-                rightDigit = c
-                break
+            case c
+            of '0'..'9':
+                digits.add(ord(c) - ord('0'))
+            else: discard
 
-        sum += parseInt(leftDigit & rightDigit)
+        sum += digits[0] * 10 + digits[^1]
     
     echo fmt"The sum is: {sum}"
 
